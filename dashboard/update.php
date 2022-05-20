@@ -8,15 +8,18 @@ $query = "SELECT * FROM `todo_application` WHERE id=$id";
 
 $execute = mysqli_query($connect, $query);
 
-if ($execute) {
-    $row = mysqli_fetch_assoc($execute);
-    $title = $row['title'];
-    $category = $row['category'];
-    $description = $row['description'];
-    $writer = $row['writer'];
-}
+$row = mysqli_fetch_assoc($execute);
+$title = $row['title'];
+$category = $row['category'];
+$description = $row['description'];
+$writer = $row['writer'];
 
 if (isset($_POST['update'])) {
+    $title = $_POST['title'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $writer = $_POST['writer'];
+
     $sql = "UPDATE `todo_application` SET id=$id, title='$title', category='$category', description='$description', writer='$writer' WHERE id=$id";
     $result = mysqli_query($connect, $sql);
     if ($result) {
@@ -43,28 +46,29 @@ if (isset($_POST['update'])) {
 
     <div class="container my-5">
 
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">
-                <input type="text" class="form-control-plaintext" name="title" value=<?php echo $title; ?>>
-            </h4>
-            <h6 class="alert-heading">
-                <input type="text" class="form-control-plaintext" name="category" value=<?php echo $category; ?>>
-            </h6>
-            <p>
-                <input type="text" class="form-control-plaintext" name="description" value=<?php echo $description; ?>>
-            </p>
-            <hr>
-            <p class="mb-0">
-                <input type="text" class="form-control-plaintext" name="writer" value=<?php echo $writer; ?>>
-            </p>
-        </div>
+        <form method="post">
+            <div class="input-group flex-nowrap my-2">
+                <span class="input-group-text" id="addon-wrapping">Name</span>
+                <input type="text" class="form-control" name="writer" value=<?php echo $title; ?> autocomplete="off" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" value=<?php echo $writer; ?>>
+            </div>
+            <div class="input-group flex-nowrap my-2">
+                <span class="input-group-text" id="addon-wrapping">Title</span>
+                <input type="text" class="form-control" name="title" autocomplete="off" placeholder="Title of your blog" aria-label="Username" aria-describedby="addon-wrapping">
+            </div>
+            <div class="input-group flex-nowrap my-2">
+                <span class="input-group-text" id="addon-wrapping">Category Name</span>
+                <input type="text" class="form-control" name="category" autocomplete="off" placeholder="Category Of Your Blog" value=<?php echo $category; ?> aria-label="Username" aria-describedby="addon-wrapping">
+            </div>
+            <div class="input-group my-2">
+                <span class="input-group-text">Description</span>
+                <textarea class="form-control" name="description" autocomplete="off" placeholder="Description Of Your Blog" value=<?php echo $description; ?> aria-label="With textarea"></textarea>
+            </div>
+            <div class="my-3">
+                <button type="submit" class="btn btn-primary" name="update">Submit</button>
+            </div>
+        </form>
 
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button type="submit" class="btn btn-primary" name="update">
-                Update
-            </button>
-
-        </div>
+    </div>
 
 </body>
 
